@@ -13,10 +13,10 @@
 # limitations under the License.
 PROJECT         := MSgauge
 DEVICES         := LPC11C24
-GCC4MBED_DIR    := ../..
+GCC4MBED_DIR    := ../gcc4mbed
 NO_FLOAT_SCANF  := 1
 NO_FLOAT_PRINTF := 1
-NO_SPLASH_ADAFRUIT := 1
+#DEFINES := -DNO_SPLASH_ADAFRUIT
 GCC4MBED_TYPE := Release
 #VERBOSE	:= 1
 

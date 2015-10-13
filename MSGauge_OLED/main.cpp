@@ -11,12 +11,19 @@
  */
 
 #include "mbed.h"
+#include "Gauge_config.h"
 #include "include/SSD1306/Adafruit_SSD1306.h"
 
 uint16_t value = 1;
 Timer alarmTimer;
 Timer commTimer;
 Timer displayTimer;
+
+#if defined(GAUGE_MAP)
+uint16_t baro = 0;
+#endif
+
+char tempchars[11];
 
 bool connectionState = true;
 bool alarmDisplayStatus = false;
@@ -39,49 +46,35 @@ SPIPreInit gSpi(P0_9,P0_8,P0_6);
 //                             DC,  RST, CS
 Adafruit_SSD1306_Spi oled(gSpi,P1_0,P1_1,P1_2,64,128);
 
-void drawNeedleLine(int16_t x0, int16_t y0,  int16_t x1, int16_t y1, uint16_t color, int16_t yStop)
-{
-    int16_t steep = abs(y1 - y0) > abs(x1 - x0);
+void divby10(int val) {
+  uint8_t length;
 
-    if (steep)
-    {
-        swap(x0, y0);
-        swap(x1, y1);
+  itoa(val, tempchars, 10);
+  length=strlen(tempchars);
+
+  tempchars[length + 1]=tempchars[length]; // null shift right
+  tempchars[length]=tempchars[length - 1]; //
+  tempchars[length - 1]='.';
+}
+
+// CAN receive interrupt handler
+void canRX() {
+  CANMessage msg;
+  while(can1.read(msg)) {
+    if (msg.id == 1522) {
+      connectionState = true;
+      commTimer.reset();
+#if defined(GAUGE_CLT)
+      value = msg.data[7] | (msg.data[6] << 8);
+#elif defined(GAUGE_MAT)
+      value = msg.data[5] | (msg.data[4] << 8);
+#elif defined(GAUGE_MAP)
+      value = msg.data[3] | (msg.data[2] << 8);
+      baro = msg.data[1] | (msg.data[0] << 8);
+#endif
+      led2 = !led2;
     }
-
-    if (x0 > x1)
-    {
-        swap(x0, x1);
-        swap(y0, y1);
-    }
-
-    int16_t dx, dy;
-    dx = x1 - x0;
-    dy = abs(y1 - y0);
-
-    int16_t err = dx / 2;
-    int16_t ystep;
-
-    if (y0 < y1)
-        ystep = 1;
-    else
-        ystep = -1;
-
-    for (; x0<=x1; x0++)
-    {
-        if (steep) {
-            oled.drawPixel(y0, x0, color);
-            if (x0 > yStop) return;
-        } else {
-            if (y0 <= yStop) oled.drawPixel(x0, y0, color);
-        }
-        err -= dy;
-        if (err < 0)
-        {
-            y0 += ystep;
-            err += dx;
-        }
-    }
+  }
 }
 
 void drawGauge(void) {
@@ -92,10 +85,10 @@ void drawGauge(void) {
   oled.drawLine(108, 12, 100, 22, WHITE);
   oled.drawLine(128, 12, 116, 22, WHITE);
   oled.drawFastVLine(64, 12, 10, WHITE);
-  oled.drawFastHLine(0,12, 128, BLACK);
 
   oled.setTextSize(1);
   oled.setTextColor(WHITE);
+#if defined(GAUGE_CLT)
   oled.setTextCursor(44,27);
   oled.printf("COOLANT");
   oled.setTextCursor(32,36);
@@ -106,37 +99,89 @@ void drawGauge(void) {
   oled.printf("NORMAL");
   oled.setTextCursor(110,0);
   oled.printf("HOT");
+#elif defined(GAUGE_MAP)
+  oled.setTextCursor(40,27);
+  oled.printf("MANIFOLD");
+  oled.setTextCursor(40,36);
+  oled.printf("PRESSURE");
+  oled.setTextCursor(0,0);
+  oled.printf("0");
+  oled.setTextCursor(60,0);
+  oled.printf("10");
+  oled.setTextCursor(116,0);
+  oled.printf("20");
+#endif
 }
 
 void drawNeedle(uint16_t value) {
   uint8_t level;
-  uint8_t hpos;
-  // scale "value" to 1-128 and store it in "level"
+  uint16_t alarmValue = 0;
+
+  // scale "value" to 1-128 and store it in "level", and set bounds for error condition
   // value * 128 / full_scale
+#if defined(GAUGE_CLT)
+  //value /= 10;
+  // scale 160-260, alarm > 230
+  if (value >= 1600) {
+    level = (value / 10 - 160) * 128 / 70;
+  } else {
+    level = 0;
+  }
+  alarmValue = 2300;
+  oled.setTextSize(2);
+  oled.setTextCursor(36,48);
+  //oled.printf("%4d.%1d",value/10,value%10);
+#elif defined(GAUGE_MAT)
+  value /= 10;
   if (value >= 160) {
     level = (value - 160) * 128 / 70;
   } else {
     level = 0;
   }
-  if (level > 128) level = 128;
-  drawNeedleLine(level,  6, 62,64, WHITE, 45);
-  drawNeedleLine(level+1,6, 63,64, WHITE, 45);
-  drawNeedleLine(level+2,6, 64,64, WHITE, 45);
-
   oled.setTextSize(2);
-  if (value < 10) {
-    hpos = 72;
-  } else if (value < 100) {
-    hpos = 60;
-  } else if (value < 1000) {
-    hpos = 48;
+  oled.setTextCursor(36,48);
+  //oled.printf("%4d.%1d",value/10,value%10);
+  divby10(value);
+  oled.printf("%s",tempchars);
+
+#elif defined(GAUGE_MAP)
+  // assume 2.5 bar MAP sensor with forced induction
+  // needle scales for boost only, 0-21ish psi
+  if (value > baro) {
+    // in boost. 6.895kpa = 1psi
+    value = (value - baro) * 200 / 1379;
+    level = value * 128 / 210;
+    oled.setTextSize(2);
+    oled.setTextCursor(52,48);
+    //oled.printf("%2d.%1d",value/10,value%10);
+    divby10(value);
+    oled.printf("%s",tempchars);
+    oled.setTextSize(1);
+    oled.setTextCursor(104,56);
+    oled.printf("psi");
   } else {
-    hpos = 36;
+    // in vacuum. 1 kPa = 0.2953 in Hg
+    level = 0;
+    value = abs(baro - value) * 2953 / 10000;
+    oled.setTextSize(2);
+    oled.setTextCursor(0,48);
+    //oled.printf("%2d.%1d",value/10,value%10);
+    divby10(value);
+    oled.printf("%s",tempchars);
+    oled.setTextSize(1);
+    oled.setTextCursor(52,56);
+    oled.printf("in/Hg");
   }
-  oled.setTextCursor(hpos,47);
-  oled.printf("%d",value);
+#endif
+  if (level > 128) level = 128;
+  oled.drawLine(level,  6, 62,64, WHITE, 45);
+  oled.drawLine(level+1,6, 63,64, WHITE, 45);
+  oled.drawLine(level+2,6, 64,64, WHITE, 45);
+
+
+
   // "flash" the display (invert) during error condition
-  if (alarmDisplayStatus && value > 200) {
+  if (alarmDisplayStatus && alarmValue > 0 && value > alarmValue) {
     oled.invertDisplay(true);
   } else {
     oled.invertDisplay(false);
@@ -150,43 +195,40 @@ void updateGauge(void) {
   oled.clearDisplay();
 }
 
-
 int main() {
   commTimer.start();
   alarmTimer.start();
   displayTimer.start();
   printf("Initializing...\r\n");
   can1.frequency(500000);
-  CANMessage msg;
 
   oled.clearDisplay();
+  oled.display();
+//wait(3);
   updateGauge();
 
+  can1.attach(canRX);
+
   while(1) {
+    // detect error conditions and toggle a bit to be used by display routines
     if (alarmTimer.read_ms() > 500) {
       alarmDisplayStatus = !alarmDisplayStatus;
       alarmTimer.reset();
     }
-    while(can1.read(msg)) {
-      if (msg.id == 1522) {
-        printf("Message received: %d\r\n", msg.id);
-        connectionState = true;
-        commTimer.reset();
-        value = (msg.data[7] | (msg.data[6] << 8)) / 10;
-        led2 = !led2;
-      }
-    }
 
-    if (commTimer.read_ms() > 1000) { // see if we have gotten any CAN messages in the last second. display an error if not
+    // see if we have gotten any CAN messages in the last second. display an error if not
+    if (commTimer.read_ms() > 1000) {
       commTimer.reset();
       connectionState = false;
     }
+
     if (!connectionState && alarmDisplayStatus) {
       oled.setTextSize(1);
       oled.setTextColor(WHITE);
       oled.setTextCursor(0,56);
       oled.printf("No data");
     }
+
     if (displayTimer.read_ms() > 100) {
       displayTimer.reset();
       updateGauge();
