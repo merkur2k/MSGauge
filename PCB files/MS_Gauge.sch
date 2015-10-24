@@ -6907,7 +6907,7 @@ package type OT</description>
 <part name="U$18" library="custom" deviceset="OLED-SMT" device=""/>
 <part name="LOGO1" library="SparkFun-Aesthetics" deviceset="OSHW-LOGO" device="L"/>
 <part name="LED2" library="microbuilder" deviceset="LED" device="0603"/>
-<part name="R2" library="microbuilder" deviceset="RESISTOR" device="0603" value="2k"/>
+<part name="R2" library="microbuilder" deviceset="RESISTOR" device="0603" value="120"/>
 <part name="U1" library="microbuilder" deviceset="MCP1700" device=""/>
 <part name="U$1" library="Evans" deviceset="VID29-FLIPPED" device=""/>
 <part name="IC1" library="LeoBuild" deviceset="B1836M" device=""/>
@@ -6917,14 +6917,12 @@ package type OT</description>
 <part name="R4" library="microbuilder" deviceset="RESISTOR" device="0603" value="10k"/>
 <part name="U$2" library="microbuilder" deviceset="3.3V" device=""/>
 <part name="B2" library="microbuilder" deviceset="SWITCH_TACT_SMT" device="EVQPQ" value="ISP"/>
-<part name="R5" library="microbuilder" deviceset="RESISTOR" device="0603" value="33"/>
-<part name="R6" library="microbuilder" deviceset="RESISTOR" device="0603" value="33"/>
 <part name="SJ2" library="microbuilder" deviceset="SOLDERJUMPER" device=""/>
 <part name="U$21" library="microbuilder" deviceset="3.3V" device=""/>
 <part name="U$22" library="microbuilder" deviceset="GND" device=""/>
 <part name="U$23" library="microbuilder" deviceset="GND" device=""/>
-<part name="R7" library="microbuilder" deviceset="RESISTOR" device="0603" value="2k"/>
-<part name="R8" library="microbuilder" deviceset="RESISTOR" device="0603" value="2k"/>
+<part name="R7" library="microbuilder" deviceset="RESISTOR" device="0603" value="4.7k"/>
+<part name="R8" library="microbuilder" deviceset="RESISTOR" device="0603" value="4.7k"/>
 <part name="IC3" library="microchip" deviceset="24LC32AT-I/OT" device=""/>
 </parts>
 <sheets>
@@ -6977,8 +6975,6 @@ package type OT</description>
 <instance part="R4" gate="G$1" x="-38.1" y="109.22" rot="R90"/>
 <instance part="U$2" gate="G$1" x="93.98" y="20.32"/>
 <instance part="B2" gate="G$1" x="-76.2" y="104.14"/>
-<instance part="R5" gate="G$1" x="-83.82" y="91.44"/>
-<instance part="R6" gate="G$1" x="-58.42" y="116.84" rot="R90"/>
 <instance part="SJ2" gate="1" x="-71.12" y="22.86"/>
 <instance part="U$21" gate="G$1" x="-73.66" y="7.62"/>
 <instance part="U$22" gate="G$1" x="-50.8" y="-17.78"/>
@@ -7322,25 +7318,6 @@ package type OT</description>
 <wire x1="-45.72" y1="50.8" x2="-76.2" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$13" class="0">
-<segment>
-<pinref part="IC2" gate="G$1" pin="RESET/PIO0_0"/>
-<wire x1="-25.4" y1="93.98" x2="-45.72" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="-45.72" y1="93.98" x2="-45.72" y2="53.34" width="0.1524" layer="91"/>
-<pinref part="JP2" gate="A" pin="6"/>
-<wire x1="-45.72" y1="53.34" x2="-76.2" y2="53.34" width="0.1524" layer="91"/>
-<wire x1="-45.72" y1="93.98" x2="-45.72" y2="104.14" width="0.1524" layer="91"/>
-<junction x="-45.72" y="93.98"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<pinref part="R6" gate="G$1" pin="2"/>
-<wire x1="-45.72" y1="104.14" x2="-45.72" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="-58.42" y1="121.92" x2="-58.42" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="-58.42" y1="124.46" x2="-50.8" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="-50.8" y1="124.46" x2="-50.8" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="-50.8" y1="104.14" x2="-45.72" y2="104.14" width="0.1524" layer="91"/>
-<junction x="-45.72" y="104.14"/>
-</segment>
-</net>
 <net name="N$23" class="0">
 <segment>
 <pinref part="U$18" gate="G$1" pin="CLK"/>
@@ -7459,18 +7436,11 @@ package type OT</description>
 <pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="-38.1" y1="104.14" x2="-38.1" y2="91.44" width="0.1524" layer="91"/>
 <junction x="-38.1" y="91.44"/>
-<pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="-78.74" y1="91.44" x2="-48.26" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="-91.44" y1="91.44" x2="-48.26" y2="91.44" width="0.1524" layer="91"/>
 <junction x="-48.26" y="91.44"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
 <pinref part="B2" gate="G$1" pin="P"/>
 <pinref part="B2" gate="G$1" pin="P1"/>
 <wire x1="-81.28" y1="101.6" x2="-81.28" y2="104.14" width="0.1524" layer="91"/>
-<pinref part="R5" gate="G$1" pin="1"/>
-<wire x1="-88.9" y1="91.44" x2="-91.44" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="-91.44" y1="91.44" x2="-91.44" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="-91.44" y1="101.6" x2="-81.28" y2="101.6" width="0.1524" layer="91"/>
 <junction x="-81.28" y="101.6"/>
@@ -7481,9 +7451,21 @@ package type OT</description>
 <pinref part="B1" gate="G$1" pin="S1"/>
 <pinref part="B1" gate="G$1" pin="S"/>
 <wire x1="-58.42" y1="104.14" x2="-58.42" y2="101.6" width="0.1524" layer="91"/>
-<pinref part="R6" gate="G$1" pin="1"/>
-<wire x1="-58.42" y1="104.14" x2="-58.42" y2="111.76" width="0.1524" layer="91"/>
 <junction x="-58.42" y="104.14"/>
+<pinref part="IC2" gate="G$1" pin="RESET/PIO0_0"/>
+<wire x1="-25.4" y1="93.98" x2="-45.72" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="-45.72" y1="93.98" x2="-45.72" y2="53.34" width="0.1524" layer="91"/>
+<pinref part="JP2" gate="A" pin="6"/>
+<wire x1="-45.72" y1="53.34" x2="-76.2" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="-45.72" y1="93.98" x2="-45.72" y2="104.14" width="0.1524" layer="91"/>
+<junction x="-45.72" y="93.98"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="-45.72" y1="104.14" x2="-45.72" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="-58.42" y1="124.46" x2="-50.8" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="-50.8" y1="124.46" x2="-50.8" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="-50.8" y1="104.14" x2="-45.72" y2="104.14" width="0.1524" layer="91"/>
+<junction x="-45.72" y="104.14"/>
+<wire x1="-58.42" y1="104.14" x2="-58.42" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$17" class="0">
