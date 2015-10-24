@@ -1,0 +1,31 @@
+Partlist exported from C:/Users/devnull/Documents/eagle/MS_Gauge/MS_Gauge.sch at 3/21/2015 4:39:10 PM
+
+Part  Value          Device                Package                     Description                    
+B1    ISP            SWITCH_TACT_SMTEVQPQ  BTN_EVQPQ_4.5MM             SMT Tact Switches                  http://www.mouser.com/ProductDetail/Panasonic/EVQ-PQHB55/?qs=%2fha2pyFadujeZOYETOiTVaMULyp0EOOpTFQossK0Vzk%3d
+B2    ISP            SWITCH_TACT_SMTEVQPQ  BTN_EVQPQ_4.5MM             SMT Tact Switches                  http://www.mouser.com/ProductDetail/Panasonic/EVQ-PQHB55/?qs=%2fha2pyFadujeZOYETOiTVaMULyp0EOOpTFQossK0Vzk%3d
+C1    18pF           CAP_CERAMIC0603       0603                        Ceramic Capacitors                 http://www.mouser.com/ProductDetail/AVX/06035A180GAT2A/?qs=sGAEpiMZZMs0AnBnWHyRQE2IRmxFPR1e1Lyvkz4L%252bhQ%3d
+C2    10pF           CAP_CERAMIC0603       0603                        Ceramic Capacitors                 http://www.mouser.com/ProductDetail/AVX/06031C103KAT2A/?qs=sGAEpiMZZMs0AnBnWHyRQE2IRmxFPR1ekNYS%2fLeHWG0%3d
+C3    100nF          CAP_CERAMIC0603       0603                        Ceramic Capacitors                 http://www.mouser.com/ProductDetail/AVX/06035C104KAT2A/?qs=sGAEpiMZZMs0AnBnWHyRQE2IRmxFPR1ePtLkvMARri4%3d
+C4    10nF           CAP_CERAMIC0603       0603                        Ceramic Capacitors             
+C5    100nF          CAP_CERAMIC0603       0603                        Ceramic Capacitors             
+C6    10nF           CAP_CERAMIC0603       0603                        Ceramic Capacitors             
+C7    10uF           CAP_CERAMIC1206       1206                        Ceramic Capacitors                 http://www.mouser.com/ProductDetail/Murata-Electronics/GCM31CC71E106KA03L/?qs=sGAEpiMZZMs0AnBnWHyRQKFZIQ7b73cdxqe9IbaJVOGHSDE6ceYmlQ%3d%3d
+C8    10uF           CAP_CERAMIC1206       1206                        Ceramic Capacitors             
+D1                   DIODESMA              SMADIODE                    Diode                              http://www.mouser.com/ProductDetail/STMicroelectronics/STTH102AY/?qs=EkbspN8Z2F35MrbgcZPHsw%3d%3d
+IC1   B1836M         B1836M                MFP14S            
+IC2   LPC11C24_QFP48 LPC11C24_QFP48        LQFP48                                                         http://www.mouser.com/ProductDetail/NXP-Semiconductors/LPC11C24FBD48-301/?qs=sGAEpiMZZMs6aXpkJqPL7JC431%2fJReX5
+IC3   24LC32AT-I/OT  24LC32AT-I/OT         SOT23-5L  
+JP1                  HEADER-1X4ROUND       1X04_ROUND                  PIN HEADER                     
+JP2   ISP            HEADER-1X6SMT         1X06_SMT                    PIN HEADER                         http://www.mouser.com/ProductDetail/Molex/87898-0626/?qs=sGAEpiMZZMs%252bGHln7q6pm8NDWwBzqQCN6ivodECCTq8%3d
+LED2                 LED0603               CHIPLED_0603                LED     
+R1    120            RESISTOR0603          0603                        Resistors                          http://www.mouser.com/ProductDetail/Panasonic/ERJ-3GEYJ121V/?qs=sGAEpiMZZMtlubZbdhIBINgtzHusu9q%252bI5LPp11yjG8%3d
+R2    120            RESISTOR0603          0603                        Resistors                        
+R3    10k            RESISTOR0603          0603                        Resistors                        
+R4    10k            RESISTOR0603          0603                        Resistors                        
+R7    4.7k           RESISTOR0603          0603                        Resistors                        
+R8    4.7k           RESISTOR0603          0603                        Resistors  
+U$1   VID29-FLIPPED  VID29-FLIPPED         VID29-FLIPPED                                              
+U$18  OLED-SMT       OLED-SMT              OLED-1.3-SMT                                                   http://www.mouser.com/ProductDetail/Molex/87898-0426/?qs=sGAEpiMZZMs%252bGHln7q6pm8NDWwBzqQCN6n%2fkr6CupYg%3d
+U1                   VREG_SOT23            SOT23-R                     SOT23 Fixed Voltage Regulators     http://www.mouser.com/ProductDetail/Microchip-Technology/MCP1700T-3302E-TT/?qs=sGAEpiMZZMsGz1a6aV8DcOAsZlYjMPgHQ77X2jgUeNU%3d
+U2    TSR1-2450      TSR1-2450             TSR-1                       Traco Power TSR 1-2450             http://www.mouser.com/ProductDetail/RECOM-Power/R-78E50-05/?qs=sGAEpiMZZMt6Q9lZSPl3Re5VKOUP6OK3oKGplDCSDFs%3d 
+Y1    12MHz          CRYSTALTHIN           CRYSTAL_3.2X2.5             Crystals                           http://www.mouser.com/ProductDetail/ABRACON/ABM8G-12000MHZ-B4Y-T/?qs=sGAEpiMZZMsBj6bBr9Q9aWUu9Vmt5DeoLDgUHWIxVys%3d
